@@ -1,21 +1,24 @@
-# Importamos las librerías necesarias para nuestra practica
-import os
-
+# Importamos librerias para manejar variables de entorno y FastAPI
 from dotenv import load_dotenv
 from fastapi import FastAPI
 
+# Importamos el router de retos (modulo de python)
+from app.const import CONN_STRING
 from app.routers import challenge
 
 load_dotenv()  # Carga las variables de entorno desde el archivo .env
 
-conn_string = os.getenv("DATABASE_URL")
 
-
+# Librerias para inicializar la db
 async def create_tables(conn_string):
+  # manejo de Errores de la db
   try:
+    # abre una extension de conexion a la db
     with conn_string as conn:
       print("Conexión exitosa a la base de datos.")
+      # crea un cursor para ejecutar comandos SQL
       with conn.cursor() as cur:
+        # ejecuta el comando SQL para crear la tabla de retos
         cur.execute(
           """
           CREATE TABLE IF NOT EXISTS challenges (
@@ -25,12 +28,15 @@ async def create_tables(conn_string):
           );
           """
         )
+  # manejo de errores
   except Exception as err:
     print(f"Error al crear las tablas: {err}")
 
 
-create_tables(conn_string)
+# Ejecutamos la creacion de tablas
+create_tables(CONN_STRING)
 
 # Inicializamos la aplicación FastAPI
 app = FastAPI()
+# Incluimos el router de retos en la aplicación principal
 app.include_router(challenge.router)

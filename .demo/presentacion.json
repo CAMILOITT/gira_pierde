@@ -6,17 +6,28 @@
   "demos": [
     {
       "id": "demo-mj7wfvab-5ku8",
-      "title": "Demo 1",
+      "title": "Presentación del proyecto",
       "steps": [
         {
           "action": "create",
           "path": "main.py"
         }
       ],
-      "icons": {
-        "start": "add",
-        "end": ""
+      "description": "presentación inicial",
+      "notes": {
+        "path": "<relative path to the file>",
+        "showOnTrigger": "<show notes on trigger (optional) - default is false>"
       }
+    },
+    {
+      "title": "importamos fastapi dotenv",
+      "description": "librerias para el servidor web",
+      "steps": [
+        {
+          "action": "open",
+          "path": "/app/main.py"
+        }
+      ]
     }
   ]
 }
