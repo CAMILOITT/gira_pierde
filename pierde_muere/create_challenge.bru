@@ -1,0 +1,16 @@
+meta {
+  name: create_challenge
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://127.0.0.1:8000/challenge/create_challenge
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://demotime.show/demo-time.schema.json",
+  "title": "presentation",
+  "description": "",
+  "version": 2,
+  "demos": [
+    {
+      "id": "demo-mj7wfvab-5ku8",
+      "title": "Demo 1",
+      "steps": [
+        {
+          "action": "create",
+          "path": "main.py"
+        }
+      ],
+      "icons": {
+        "start": "add",
+        "end": ""
+      }
+    }
+  ]
+}
