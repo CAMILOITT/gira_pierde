@@ -1,86 +1,231 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gana o Pierde</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-      href="https://fonts.googleapis.com/css2?family=BBH+Bartle&family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap"
-      rel="stylesheet">
-    <style>
-      body {
-        margin: 0;
-        text-align: center;
-        font-family: 'Google Sans, cursive;
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Challenge - Tu Reto Diario con Memes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Comic+Neue:wght@700&display=swap');
+
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .meme-title {
+      font-family: 'Comic Neue', cursive;
+    }
+
+    .challenge-card {
+      animation: fadeIn 0.5s ease-in-out, bounce 0.6s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
       }
-      h1, h2 {
-        margin: 0;
-        font-family: 'BBH Bartle', cursive;
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
-      button {
-        margin: 20px;
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
+    }
+
+    @keyframes bounce {
+
+      0%,
+      100% {
+        transform: translateY(0);
       }
-    </style>
-  </head>
-  <body>
-    <main style="width: 100vw; height: 100vh; background: #0F0F0F; display: flex; align-items: center; justify-content: center; color: white; flex-direction: column;" >
-      <div id="btn_modes" >
-        <button>modo hot</button>
-        <button>modo normal (se necesita premium)</button>
-      </div>
-      <dialog id="info_target"  >
-        <div
-        
-        style=""></div>
-        <!-- <img src="https://i.pinimg.com/originals/8b/7d/f2/8b7df2651c9213875c4d426c9a78f5a7.jpg" alt="imagen tarjeta de crédito"> -->
-        <!-- <h2>tarjeta de crédito</h2>
-        <p>Ingrese los 4 dígitos detrás de su tarjeta</p> -->
-      </dialog>
-      <div>
-        <h1>Reto o shots</h1>
-        <p>Si no haces el reto, besos al ingeniero 💕💕</p>
-      </div>
 
-      <button id="btn_get_challeng" style="background: yellow; color: black; border-radius: 10px; font-weight: bold;" >obtener reto</button>
+      50% {
+        transform: translateY(-10px);
+      }
+    }
 
-      <div>
-        <h2>Reto <span id="challenge_name" ></span> </h2>
-        <p id="description" ></p>
-      </div>
-    </main>
-    <script type="module">
-      const btnGetChallenge = document.getElementById("btn_get_challeng");
-      const url = new URL(window.location.href);
-      btnGetChallenge.addEventListener("click", async () => {
-        try {
-          const response = await fetch(`https://verbose-couscous-xg46r99qjq6c9pjp-8000.app.github.dev/challenge/get_aleatory_challenge`);
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          const data = await response.json();
-          const {challenge} = data
-          console.log("Reto obtenido:", challenge);
-          document.getElementById("challenge_name").textContent = challenge.name;
-          document.getElementById("description").textContent = challenge.description;
-        } catch (error) {
-          console.error("Error fetching challenge:", error);
-          alert("Hubo un error al obtener el reto.");
-        }
-      });
+    @keyframes float {
 
-      const btnModes = document.getElementById("btn_modes");
-      btnModes.addEventListener("click", (event) => {
-        const infoTarget = document.getElementById("info_target");
-        if (event.target.tagName === "BUTTON" && event.target.textContent.includes("normal")) {
-          infoTarget.showModal();
-        }
-      });
+      0%,
+      100% {
+        transform: translateY(0px) rotate(0deg);
+      }
 
-    </script>
-  </body>
+      50% {
+        transform: translateY(-20px) rotate(5deg);
+      }
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .float-animation {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .btn-glow:hover {
+      animation: pulse 0.5s ease-in-out;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #fbbf24 0%, #ec4899 50%, #06b6d4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .gradient-bg {
+      background: linear-gradient(135deg, #1a0a0f 0%, #0f1a1a 25%, #1a0a1f 50%, #0a1a0f 75%, #1a0a0f 100%);
+      background-size: 400% 400%;
+      animation: gradientShift 8s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .meme-border {
+      border: 4px solid;
+      border-image: linear-gradient(45deg, #fbbf24, #ec4899, #06b6d4, #10b981) 1;
+    }
+
+    .meme-img {
+      transition: transform 0.3s ease;
+    }
+
+    .meme-img:hover {
+      transform: scale(1.1) rotate(2deg);
+    }
+  </style>
+</head>
+
+<body class="gradient-bg text-white min-h-screen">
+  <!-- Hero Section -->
+  <div class="relative overflow-hidden min-h-screen ">
+    <div class="absolute inset-0" style="background: 
+            radial-gradient(circle at 20% 50%, rgba(251, 191, 36, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 50%, rgba(236, 72, 153, 0.1) 0%, transparent 50%),
+            linear-gradient(to right, #18181b 1px, transparent 1px),
+            linear-gradient(to bottom, #18181b 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 4rem 4rem, 4rem 4rem;"></div>
+
+    <div class="relative">
+      <!-- Header -->
+      <header class="px-4 py-6 md:px-8">
+        <nav class="max-w-7xl mx-auto flex items-center justify-between">
+          <div
+            class="text-2xl font-bold meme-title bg-gradient-to-r from-yellow-400 via-pink-500 to-cyan-400 bg-clip-text text-transparent">
+            MEME CHALLENGE
+          </div>
+        </nav>
+      </header>
+
+      <main class="max-w-6xl mx-auto px-4 py-12 md:py-20">
+        <div class="text-center space-y-8">
+          <div
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-yellow-500/20 to-pink-500/20 border-2 border-yellow-400/50 backdrop-blur-sm float-animation">
+            <span class="text-2xl">😎</span>
+            <span class="text-sm text-yellow-300 font-bold">100% MEMES CERTIFICADOS</span>
+          </div>
+
+          <h1 class="text-5xl md:text-7xl font-black leading-tight meme-title">
+            ¿Estás listo para el<br />
+            <span class="gradient-text">RETO LEGENDARIO?</span>
+          </h1>
+
+          <p class="text-lg md:text-xl text-zinc-300 max-w-2xl mx-auto leading-relaxed">
+            Un click. Un meme. Un reto épico. No pain, no gain... pero con risas incluidas.
+          </p>
+
+          <div class="pt-6">
+            <button id="getChallengeBtn"
+              class="btn-glow px-10 py-5 bg-gradient-to-r from-yellow-400 via-pink-500 to-cyan-400 text-black rounded-2xl text-xl font-black hover:scale-105 transition-all duration-200 shadow-2xl shadow-pink-500/50 meme-title">
+              DAME ESE RETO
+            </button>
+            <p class="text-xs text-zinc-500 mt-2">*Se incluyen memes gratis</p>
+          </div>
+
+          <!-- Challenge Display -->
+          <div id="challengeDisplay"
+            class="hidden challenge-card mt-12 p-8 bg-zinc-900/90 meme-border rounded-3xl max-w-3xl mx-auto backdrop-blur-sm shadow-2xl">
+            <div class="space-y-6">
+              <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-bold text-yellow-400 uppercase tracking-wide meme-title">TU RETO
+                    ÉPICO</span>
+                  <span class="text-3xl">🔥</span>
+                </div>
+                <h2 id="challengeName" class="text-4xl font-extrabold meme-title"> </h2>
+                <p id="challengeText" class="text-2xl md:text-3xl font-bold text-left leading-tight">
+                </p>
+                <div class="pt-4 flex gap-3">
+                  <button id="newChallengeBtn"
+                    class="flex-1 px-6 py-4 bg-gradient-to-r from-yellow-400 to-pink-500 text-black rounded-xl font-black hover:from-yellow-500 hover:to-pink-600 transition-all shadow-lg meme-title">
+                    OTRO MÁS
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script type="module">
+    const btnGetChallenge = document.getElementById("getChallengeBtn");
+    const displayChallenge = document.getElementById("challengeDisplay");
+    const newChallengeBtn = document.getElementById("newChallengeBtn");
+    const url = new URL(window.location.href);
+
+    async function get_challenge() {
+      try {
+        console.log(url)
+        const response = await fetch(`${url.href}challenge/get_aleatory_challenge`);
+        if (!response.ok)
+          throw new Error("Network response was not ok");
+        const { challenge } = await response.json()
+        document.getElementById("challengeName").textContent = challenge.title;
+        document.getElementById("challengeText").textContent = challenge.description;
+        displayChallenge.classList.remove("hidden");
+      } catch (error) {
+        alert("Hubo un error al obtener el reto.");
+      }
+    }
+
+    btnGetChallenge.addEventListener("click", get_challenge);
+    newChallengeBtn.addEventListener("click", get_challenge);
+  </script>
+</body>
+
 </html>

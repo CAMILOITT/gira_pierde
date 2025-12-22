@@ -1,29 +1,30 @@
-import random
 from pathlib import Path
-from typing import Dict, List
 
 from fastapi import APIRouter, Request
+from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
 router = APIRouter()
 templates_dir = Path(__file__).parent.parent / "templates"
 templates = Jinja2Templates(directory=str(templates_dir))
-
-# In-memory storage for retos (replace with DB if needed)
-_challenges: List[Dict] = [
-  {"id": 1, "title": "Primer reto", "description": "Descripción del primer reto."},
-  {"id": 2, "title": "Reto de ejemplo", "description": "Otro reto para probar."},
-]
+TEMPLATES_PATH = Path(templates_dir)
 
 
 @router.get("/")
 def home(request: Request):
-  random_challenge = random.choice(_challenges) if _challenges else None
   return templates.TemplateResponse(
     "index.html",
     {
       "request": request,
-      "challenges": _challenges,
-      "random_challenge": random_challenge,
     },
   )
+
+
+@router.get("/{page}", response_class=HTMLResponse)
+async def render_page(request: Request, page: str):
+  template_file = f"{page}.html"
+
+  if not (TEMPLATES_PATH / template_file).exists():
+    return HTMLResponse(status_code=404, content="Página no encontrada")
+
+  return templates.TemplateResponse(template_file, {"request": request})
