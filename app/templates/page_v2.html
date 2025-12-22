@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Challenge - Tu Reto Diario</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .challenge-card {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .btn-glow:hover {
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #ffffff 0%, #a1a1aa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  </style>
+</head>
+
+<body class="bg-black text-white min-h-screen">
+  <!-- Hero Section -->
+  <div class="relative overflow-hidden">
+    <!-- Grid Pattern Background -->
+    <div
+      class="absolute inset-0 bg-[linear-gradient(to_right,#18181b_1px,transparent_1px),linear-gradient(to_bottom,#18181b_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_110%)]">
+    </div>
+
+    <div class="relative">
+      <!-- Header -->
+      <header class="px-4 py-6 md:px-8">
+        <nav class="max-w-7xl mx-auto flex items-center justify-between">
+          <div class="text-2xl font-bold">Challenge</div>
+          <button
+            class="px-4 py-2 rounded-full bg-white text-black text-sm font-semibold hover:bg-zinc-200 transition-colors">
+            Iniciar Sesión
+          </button>
+        </nav>
+      </header>
+
+      <!-- Main Content -->
+      <main class="max-w-5xl mx-auto px-4 py-20 md:py-32">
+        <div class="text-center space-y-8">
+          <!-- Badge -->
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-900 border border-zinc-800">
+            <span class="text-sm">✨</span>
+            <span class="text-sm text-zinc-400">Tu reto diario te espera</span>
+          </div>
+
+          <!-- Headline -->
+          <h1 class="text-5xl md:text-7xl font-black leading-tight">
+            Desafía tus límites.<br />
+            <span class="gradient-text">Un click a la vez.</span>
+          </h1>
+
+          <!-- Subheadline -->
+          <p class="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">
+            Obtén un nuevo reto cada vez que lo necesites. Supera tus metas,
+            mejora tus habilidades y conviértete en la mejor versión de ti mismo.
+          </p>
+
+          <!-- CTA Button -->
+          <div class="pt-6">
+            <button id="getChallengeBtn"
+              class="btn-glow px-8 py-4 bg-white text-black rounded-full text-lg font-bold hover:scale-105 transition-transform duration-200">
+              Obtener Reto
+            </button>
+          </div>
+
+          <!-- Challenge Display -->
+          <div id="challengeDisplay"
+            class="hidden challenge-card mt-12 p-8 bg-zinc-900 border border-zinc-800 rounded-2xl max-w-2xl mx-auto">
+            <div class="space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="text-sm font-semibold text-zinc-500 uppercase tracking-wide">Tu Reto</span>
+                <span class="text-2xl">🎯</span>
+              </div>
+              <p id="challengeText" class="text-2xl md:text-3xl font-bold text-left leading-tight">
+              </p>
+              <div class="pt-4 flex gap-3">
+                <button id="newChallengeBtn"
+                  class="flex-1 px-6 py-3 bg-white text-black rounded-lg font-semibold hover:bg-zinc-200 transition-colors">
+                  Nuevo Reto
+                </button>
+                <button
+                  class="px-6 py-3 bg-zinc-800 text-white rounded-lg font-semibold hover:bg-zinc-700 transition-colors border border-zinc-700">
+                  Compartir
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-24 pt-12 border-t border-zinc-900">
+          <div class="text-center">
+            <div class="text-3xl md:text-4xl font-bold mb-2">500+</div>
+            <div class="text-sm text-zinc-500">Retos disponibles</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl md:text-4xl font-bold mb-2">10K+</div>
+            <div class="text-sm text-zinc-500">Usuarios activos</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl md:text-4xl font-bold mb-2">98%</div>
+            <div class="text-sm text-zinc-500">Satisfacción</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl md:text-4xl font-bold mb-2">24/7</div>
+            <div class="text-sm text-zinc-500">Siempre disponible</div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    const challenges = [
+      "Haz 50 flexiones sin parar y comparte tu progreso",
+      "Lee un capítulo de un libro que has estado posponiendo",
+      "Llama a un amigo o familiar que no has visto en mucho tiempo",
+      "Aprende 10 palabras nuevas en un idioma diferente",
+      "Medita durante 15 minutos en un lugar tranquilo",
+      "Cocina una receta que nunca has intentado antes",
+      "Escribe 3 cosas por las que estás agradecido hoy",
+      "Camina 10,000 pasos antes de que termine el día",
+      "Organiza un espacio de tu casa que esté desordenado",
+      "Crea algo con tus manos: dibuja, pinta o construye",
+      "Ayuda a alguien sin esperar nada a cambio",
+      "No uses redes sociales durante 24 horas",
+      "Despierta 1 hora más temprano mañana",
+      "Prueba un nuevo deporte o actividad física",
+      "Escribe una carta a tu yo del futuro",
+      "Aprende una nueva habilidad en YouTube durante 30 minutos",
+      "Dona algo que ya no uses a alguien que lo necesite",
+      "Completa una tarea que has estado procrastinando",
+      "Sal de tu zona de confort: habla con un desconocido",
+      "Prepara tu comida para toda la semana"
+    ];
+
+    const getChallengeBtn = document.getElementById('getChallengeBtn');
+    const newChallengeBtn = document.getElementById('newChallengeBtn');
+    const challengeDisplay = document.getElementById('challengeDisplay');
+    const challengeText = document.getElementById('challengeText');
+
+    function getRandomChallenge() {
+      const randomIndex = Math.floor(Math.random() * challenges.length);
+      return challenges[randomIndex];
+    }
+
+    function displayChallenge() {
+      const challenge = getRandomChallenge();
+      challengeText.textContent = challenge;
+      challengeDisplay.classList.remove('hidden');
+
+      // Scroll to challenge
+      challengeDisplay.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    getChallengeBtn.addEventListener('click', displayChallenge);
+    newChallengeBtn.addEventListener('click', displayChallenge);
+  </script>
+</body>
+
+</html>

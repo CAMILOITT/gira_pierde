@@ -70,11 +70,12 @@ proyecto-final/
 ├── README.md                   # Este archivo
 ├── .env                        # Variables de entorno (no incluido en git)
 ├── app/
-│   ├── __init__.py
 │   ├── const.py               # Constantes y configuración (conexión BD)
-│   └── routers/
-│       ├── __init__.py
-│       └── challenge.py       # Rutas/endpoints de retos
+│   ├── routers/
+│   │   ├── challenge.py       # Rutas/endpoints de retos
+│   │   └── view.py            # Rutas/endpoints de retos
+│   └── templates/
+│       └── index.html         # Template HTML para la vista principal
 └── pierde_muere/              # Colección de pruebas Bruno
     ├── bruno.json
     ├── create_challenge.bru

@@ -4,8 +4,7 @@ from fastapi import FastAPI
 
 # Importamos el router de retos (modulo de python)
 from app.const import CONN_STRING
-from app.routers import challenge
-from app.routers import view
+from app.routers import challenge, pages
 
 load_dotenv()  # Carga las variables de entorno desde el archivo .env
 
@@ -40,4 +39,4 @@ create_tables(CONN_STRING)
 app = FastAPI()
 # Incluimos el router de retos en la aplicación principal
 app.include_router(challenge.router)
-app.include_router(view.router)
+app.include_router(pages.router)

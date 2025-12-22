@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Challenge - Tu Reto Diario con Memes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Comic+Neue:wght@700&display=swap');
+
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .meme-title {
+      font-family: 'Comic Neue', cursive;
+    }
+
+    .challenge-card {
+      animation: fadeIn 0.5s ease-in-out, bounce 0.6s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes bounce {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+
+      50% {
+        transform: translateY(-20px) rotate(5deg);
+      }
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .float-animation {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .btn-glow:hover {
+      animation: pulse 0.5s ease-in-out;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #fbbf24 0%, #ec4899 50%, #06b6d4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .gradient-bg {
+      background: linear-gradient(135deg, #1a0a0f 0%, #0f1a1a 25%, #1a0a1f 50%, #0a1a0f 75%, #1a0a0f 100%);
+      background-size: 400% 400%;
+      animation: gradientShift 8s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .meme-border {
+      border: 4px solid;
+      border-image: linear-gradient(45deg, #fbbf24, #ec4899, #06b6d4, #10b981) 1;
+    }
+
+    .meme-img {
+      transition: transform 0.3s ease;
+    }
+
+    .meme-img:hover {
+      transform: scale(1.1) rotate(2deg);
+    }
+  </style>
+</head>
+
+<body class="gradient-bg text-white min-h-screen">
+  <!-- Hero Section -->
+  <div class="relative overflow-hidden">
+    <div class="absolute inset-0" style="background: 
+            radial-gradient(circle at 20% 50%, rgba(251, 191, 36, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 50%, rgba(236, 72, 153, 0.1) 0%, transparent 50%),
+            linear-gradient(to right, #18181b 1px, transparent 1px),
+            linear-gradient(to bottom, #18181b 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 4rem 4rem, 4rem 4rem;"></div>
+
+    <div class="relative">
+      <!-- Header -->
+      <header class="px-4 py-6 md:px-8">
+        <nav class="max-w-7xl mx-auto flex items-center justify-between">
+          <div
+            class="text-2xl font-bold meme-title bg-gradient-to-r from-yellow-400 via-pink-500 to-cyan-400 bg-clip-text text-transparent">
+            MEME CHALLENGE
+          </div>
+          <button
+            class="px-4 py-2 rounded-full bg-gradient-to-r from-yellow-400 to-pink-500 text-black text-sm font-bold hover:from-yellow-500 hover:to-pink-600 transition-all">
+            LOL Iniciar
+          </button>
+        </nav>
+      </header>
+
+      <!-- Main Content -->
+      <main class="max-w-6xl mx-auto px-4 py-12 md:py-20">
+        <div class="text-center space-y-8">
+          <!-- Badge -->
+          <div
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-yellow-500/20 to-pink-500/20 border-2 border-yellow-400/50 backdrop-blur-sm float-animation">
+            <span class="text-2xl">😎</span>
+            <span class="text-sm text-yellow-300 font-bold">100% MEMES CERTIFICADOS</span>
+          </div>
+
+          <!-- Headline -->
+          <h1 class="text-5xl md:text-7xl font-black leading-tight meme-title">
+            ¿Estás listo para el<br />
+            <span class="gradient-text">RETO LEGENDARIO?</span>
+          </h1>
+
+          <!-- Subheadline -->
+          <p class="text-lg md:text-xl text-zinc-300 max-w-2xl mx-auto leading-relaxed">
+            Un click. Un meme. Un reto épico. No pain, no gain... pero con risas incluidas.
+          </p>
+
+          <!-- Meme Section -->
+          <div class="grid grid-cols-3 gap-4 max-w-xl mx-auto py-8">
+            <img src="/placeholder.svg?height=120&width=120" alt="Meme 1"
+              class="meme-img rounded-lg w-full h-24 object-cover border-2 border-yellow-400/50 shadow-lg">
+            <img src="/placeholder.svg?height=120&width=120" alt="Meme 2"
+              class="meme-img rounded-lg w-full h-24 object-cover border-2 border-pink-400/50 shadow-lg">
+            <img src="/placeholder.svg?height=120&width=120" alt="Meme 3"
+              class="meme-img rounded-lg w-full h-24 object-cover border-2 border-cyan-400/50 shadow-lg">
+          </div>
+
+          <!-- CTA Button -->
+          <div class="pt-6">
+            <button id="getChallengeBtn"
+              class="btn-glow px-10 py-5 bg-gradient-to-r from-yellow-400 via-pink-500 to-cyan-400 text-black rounded-2xl text-xl font-black hover:scale-105 transition-all duration-200 shadow-2xl shadow-pink-500/50 meme-title">
+              DAME ESE RETO
+            </button>
+            <p class="text-xs text-zinc-500 mt-2">*Se incluyen memes gratis</p>
+          </div>
+
+          <!-- Challenge Display -->
+          <div id="challengeDisplay"
+            class="hidden challenge-card mt-12 p-8 bg-zinc-900/90 meme-border rounded-3xl max-w-3xl mx-auto backdrop-blur-sm shadow-2xl">
+            <div class="space-y-6">
+              <!-- Meme Image -->
+              <div class="flex justify-center">
+                <img id="challengeMeme" src="/placeholder.svg" alt="Challenge Meme"
+                  class="rounded-xl w-full max-w-md h-64 object-cover border-4 border-yellow-400/30 shadow-xl">
+              </div>
+
+              <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-bold text-yellow-400 uppercase tracking-wide meme-title">TU RETO
+                    ÉPICO</span>
+                  <span class="text-3xl">🔥</span>
+                </div>
+                <p id="challengeText" class="text-2xl md:text-3xl font-bold text-left leading-tight">
+                </p>
+                <div class="pt-4 flex gap-3">
+                  <button id="newChallengeBtn"
+                    class="flex-1 px-6 py-4 bg-gradient-to-r from-yellow-400 to-pink-500 text-black rounded-xl font-black hover:from-yellow-500 hover:to-pink-600 transition-all shadow-lg meme-title">
+                    OTRO MÁS
+                  </button>
+                  <button
+                    class="px-6 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl font-black hover:from-cyan-600 hover:to-blue-600 transition-all shadow-lg meme-title">
+                    COMPARTIR
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats with meme style -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-24 pt-12 border-t-4 border-yellow-500/20">
+          <div class="text-center p-4 bg-yellow-500/10 rounded-xl border-2 border-yellow-500/30">
+            <div class="text-3xl md:text-4xl font-black mb-2 meme-title text-yellow-400">9000+</div>
+            <div class="text-sm text-zinc-400 font-semibold">Memes usados</div>
+          </div>
+          <div class="text-center p-4 bg-pink-500/10 rounded-xl border-2 border-pink-500/30">
+            <div class="text-3xl md:text-4xl font-black mb-2 meme-title text-pink-400">LOL</div>
+            <div class="text-sm text-zinc-400 font-semibold">Factor diversión</div>
+          </div>
+          <div class="text-center p-4 bg-cyan-500/10 rounded-xl border-2 border-cyan-500/30">
+            <div class="text-3xl md:text-4xl font-black mb-2 meme-title text-cyan-400">420</div>
+            <div class="text-sm text-zinc-400 font-semibold">Retos completados</div>
+          </div>
+          <div class="text-center p-4 bg-green-500/10 rounded-xl border-2 border-green-500/30">
+            <div class="text-3xl md:text-4xl font-black mb-2 meme-title text-green-400">EPIC</div>
+            <div class="text-sm text-zinc-400 font-semibold">Nivel alcanzado</div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    const challenges = [
+      {
+        text: "Haz 50 flexiones sin parar y comparte tu progreso",
+        meme: "/placeholder.svg?height=300&width=400"
+      },
+      {
+        text: "Lee un capítulo de un libro que has estado posponiendo",
+        meme: "/placeholder.svg?height=300&width=400"
+      },
+      {
+        text: "Llama a un amigo o familiar que no has visto en mucho tiempo",
+        meme: "/placeholder.svg?height=300&width=400"
+      },
+      {
+        text: "Aprende 10 palabras nuevas en un idioma diferente",
+        meme: "/placeholder.svg?height=300&width=400"
+      },
+      {
+        text: "Medita durante 15 minutos en un lugar tranquilo",
+        meme: "/placeholder.svg?height=300&width=400"
+      },
+      {
+        text: "Cocina una receta que nunca has intentado antes",
+        meme: "/placeholder.svg?height=300&width=400"
+      },
+      {
+        text: "Escribe 3 cosas por las que estás agradecido hoy",
+        meme: "/placeholder.svg?height=300&width=400"
+      },
+      {
+        text: "Camina 10,000 pasos antes de que termine el día",
+        meme: "/placeholder.svg?height=300&width=400"
+      },
+      {
+        text: "Organiza un espacio de tu casa que esté desordenado",
+        meme: "/placeholder.svg?height=300&width=400"
+      },
+      {
+        text: "Crea algo con tus manos: dibuja, pinta o construye",
+        meme: "/placeholder.svg?height=300&width=400"
+      },
+      {
+        text: "Ayuda a alguien sin esperar nada a cambio",
+        meme: "/placeholder.svg?height=300&width=400"
+      },
+      {
+        text: "No uses redes sociales durante 24 horas",
+        meme: "/placeholder.svg?height=300&width=400"
+      },
+      {
+        text: "Despierta 1 hora más temprano mañana",
+        meme: "/placeholder.svg?height=300&width=400"
+      },
+      {
+        text: "Prueba un nuevo deporte o actividad física",
+        meme: "/placeholder.svg?height=300&width=400"
+      },
+      {
+        text: "Escribe una carta a tu yo del futuro",
+        meme: "/placeholder.svg?height=300&width=400"
+      },
+      {
+        text: "Aprende una nueva habilidad en YouTube durante 30 minutos",
+        meme: "/placeholder.svg?height=300&width=400"
+      },
+      {
+        text: "Dona algo que ya no uses a alguien que lo necesite",
+        meme: "/placeholder.svg?height=300&width=400"
+      },
+      {
+        text: "Completa una tarea que has estado procrastinando",
+        meme: "/placeholder.svg?height=300&width=400"
+      },
+      {
+        text: "Sal de tu zona de confort: habla con un desconocido",
+        meme: "/placeholder.svg?height=300&width=400"
+      },
+      {
+        text: "Prepara tu comida para toda la semana",
+        meme: "/placeholder.svg?height=300&width=400"
+      }
+    ];
+
+    const getChallengeBtn = document.getElementById('getChallengeBtn');
+    const newChallengeBtn = document.getElementById('newChallengeBtn');
+    const challengeDisplay = document.getElementById('challengeDisplay');
+    const challengeText = document.getElementById('challengeText');
+    const challengeMeme = document.getElementById('challengeMeme');
+
+    function getRandomChallenge() {
+      const randomIndex = Math.floor(Math.random() * challenges.length);
+      return challenges[randomIndex];
+    }
+
+    function displayChallenge() {
+      const challenge = getRandomChallenge();
+      challengeText.textContent = challenge.text;
+      challengeMeme.src = challenge.meme;
+      challengeDisplay.classList.remove('hidden');
+
+      challengeDisplay.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    getChallengeBtn.addEventListener('click', displayChallenge);
+    newChallengeBtn.addEventListener('click', displayChallenge);
+  </script>
+</body>
+
+</html>
