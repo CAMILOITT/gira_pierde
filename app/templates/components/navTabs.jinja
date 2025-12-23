@@ -1,0 +1,39 @@
+<div class="flex justify-center gap-4 mt-8 flex-wrap">
+  <button id="tabReto" class="tab-btn px-6 py-2 rounded-lg font-bold meme-title tab-active transition-all border-b-4"
+    data-tab="reto">
+    🎯 RETO ALEATORIO
+  </button>
+  <button id="tabCrear" class="tab-btn px-6 py-2 rounded-lg font-bold meme-title tab-inactive transition-all border-b-4"
+    data-tab="crear">
+    ➕ CREAR RETO
+  </button>
+  <button id="tabLista" class="tab-btn px-6 py-2 rounded-lg font-bold meme-title tab-inactive transition-all border-b-4"
+    data-tab="lista">
+    📋 MIS RETOS
+  </button>
+</div>
+
+<script type="module" defer>
+  const tabButtons = document.querySelectorAll('.tab-btn');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const tabName = button.dataset.tab;
+
+      tabButtons.forEach(btn => {
+        btn.classList.remove('tab-active');
+        btn.classList.add('tab-inactive');
+        btn.style.borderBottom = 'none';
+      });
+
+      tabContents.forEach(content => {
+        content.classList.add('section-hidden');
+      });
+
+      button.classList.add('tab-active');
+      button.classList.remove('tab-inactive');
+      document.getElementById(tabName).classList.remove('section-hidden');
+    });
+  });
+</script>

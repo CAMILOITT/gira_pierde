@@ -1,0 +1,60 @@
+{% from 'components/btn.jinja' import btn %}
+
+<div id="crear" class="tab-content section-hidden">
+  <div class="mt-12 p-8 bg-zinc-900/90 meme-border rounded-3xl max-w-2xl mx-auto backdrop-blur-sm shadow-2xl">
+    <h2 class="text-3xl font-extrabold meme-title mb-6 text-yellow-400">CREAR UN NUEVO RETO</h2>
+    <form id="createForm" class="space-y-6">
+      <div>
+        <label class="block text-lg font-bold text-yellow-300 mb-2">Título del Reto</label>
+        <input id="inputTitle" type="text" placeholder="Ej: Haz la plancha más épica"
+          class="w-full px-4 py-3 rounded-xl bg-zinc-800 border-2 border-yellow-400/30 text-white placeholder-zinc-500 focus:border-yellow-400 focus:outline-none transition-all">
+      </div>
+      <div>
+        <label class="block text-lg font-bold text-yellow-300 mb-2">Descripción del Reto</label>
+        <textarea id="inputDescription" placeholder="Describe tu reto épico aquí..."
+          class="w-full px-4 py-3 rounded-xl bg-zinc-800 border-2 border-yellow-400/30 text-white placeholder-zinc-500 focus:border-yellow-400 focus:outline-none transition-all resize-none"
+          rows="4"></textarea>
+      </div>
+      {{ btn('CREAR RETO 🚀') }}
+    </form>
+    <div id="createMessage" class="mt-4 text-center text-green-400 font-bold hidden"></div>
+  </div>
+</div>
+
+<script type="module">
+  const URL = window.location.origin;
+
+  const createForm = document.getElementById('createForm');
+  const createMessage = document.getElementById('createMessage');
+
+  createForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const title = document.getElementById('inputTitle').value;
+    const description = document.getElementById('inputDescription').value;
+
+    if (!title || !description) {
+      alert('Por favor completa todos los campos');
+      return;
+    }
+
+    try {
+      const response = await
+        fetch(`${URL}/create_challenge?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}`,
+          {
+            method: 'POST'
+          });
+
+      if (!response.ok) throw new Error('Error al crear el reto');
+
+      createMessage.textContent = '✅ ¡Reto creado exitosamente!';
+      createMessage.classList.remove('hidden');
+      createForm.reset();
+
+      setTimeout(() => {
+        createMessage.classList.add('hidden');
+      }, 3000);
+    } catch (error) {
+      alert('Error: ' + error.message);
+    }
+  });
+</script>

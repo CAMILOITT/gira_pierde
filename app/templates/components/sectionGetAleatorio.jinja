@@ -1,0 +1,60 @@
+{% from 'components/btn.jinja' import btn %}
+
+<div id="reto" class="tab-content">
+  <div class="pt-6">
+    {{ btn('DAME ESE RETO', 'getChallengeBtn') }}
+    <p class="text-xs text-zinc-500 mt-2">*Se incluyen memes gratis</p>
+  </div>
+
+  <!-- Challenge Display -->
+  <div id="challengeDisplay"
+    class="hidden challenge-card mt-12 p-8 bg-zinc-900/90 meme-border rounded-3xl max-w-3xl mx-auto backdrop-blur-sm shadow-2xl">
+    <div class="space-y-6">
+      <div class="space-y-4">
+        <div class="flex items-center justify-between">
+          <span class="text-sm font-bold text-yellow-400 uppercase tracking-wide meme-title">TU RETO
+            ÉPICO</span>
+          <span class="text-3xl">🔥</span>
+        </div>
+        <h2 id="challengeName" class="text-4xl font-extrabold meme-title"> </h2>
+        <p id="challengeText" class="text-2xl md:text-3xl font-bold text-left leading-tight">
+        </p>
+        <div class="pt-4 flex gap-3">
+          {{ btn('OTRO MÁS', 'newChallengeBtn') }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  // Creamos las constantes necesarias
+  const URL = window.location.origin;
+  const API_URL = `${URL}/challenge/get_aleatory_challenge`
+  // Obtener elementos del DOM
+  const btnGetChallenge = document.getElementById("getChallengeBtn");
+  const displayChallenge = document.getElementById("challengeDisplay");
+  const newChallengeBtn = document.getElementById("newChallengeBtn");
+
+  // Función para obtener un reto aleatorio
+  async function get_challenge() {
+    try {
+      // Hacemos la petición al servidor
+      const response = await fetch(API_URL)
+      // Validamos si la petición fue exitosa
+      if (!response.ok) throw new Error("Error al obtener el reto")
+      // Obtenemos los datos en formato JSON
+      const { challenge } = await response.json();
+      // Actualizamos el contenido del reto en el DOM
+      document.getElementById("challengeName").textContent = challenge.title;
+      document.getElementById("challengeText").textContent = challenge.description;
+      // Mostramos la sección del reto
+      displayChallenge.classList.remove("hidden");
+    } catch (error) {
+      alert("Hubo un error al obtener el reto: " + error.message);
+    }
+  }
+  // Registramos eventos de click en los botones
+  btnGetChallenge.addEventListener("click", get_challenge);
+  newChallengeBtn.addEventListener("click", get_challenge);
+</script>

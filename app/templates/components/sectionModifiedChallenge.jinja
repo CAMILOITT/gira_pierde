@@ -1,0 +1,118 @@
+<div id="lista" class="tab-content section-hidden">
+  <div class="mt-12 max-w-4xl mx-auto">
+    <h2 class="text-3xl font-extrabold meme-title mb-6 text-yellow-400">MIS RETOS</h2>
+    <button id="loadChallengesBtn"
+      class="px-8 py-3 bg-gradient-to-r from-cyan-400 to-pink-500 text-black rounded-xl font-black hover:from-cyan-500 hover:to-pink-600 transition-all shadow-lg meme-title mb-6">
+      CARGAR RETOS 📥
+    </button>
+
+    <div id="challengesList" class="space-y-4">
+      <!-- Los retos se cargarán aquí -->
+    </div>
+  </div>
+</div>
+
+<script type="module" defer>
+  const URL = window.location.origin;
+  const loadChallengesBtn = document.getElementById('loadChallengesBtn');
+  const challengesList = document.getElementById('challengesList');
+
+  loadChallengesBtn.addEventListener('click', async () => {
+    try {
+      loadChallengesBtn.disabled = true;
+      loadChallengesBtn.textContent = 'CARGANDO... ⏳';
+
+      const response = await fetch(`${URL}/get_all_challenge`);
+      if (!response.ok) throw new Error('Error al cargar los retos');
+
+      const { challenges } = await response.json();
+      challengesList.innerHTML = '';
+
+      if (challenges.length === 0) {
+        challengesList.innerHTML = '<p class="text-center text-zinc-400">No hay retos creados aún 😢</p>';
+        return;
+      }
+
+      challenges.forEach(challenge => {
+        const challengeItem = document.createElement('div');
+        challengeItem.className = 'challenge-item p-6 rounded-2xl border-2 border-yellow-400/30';
+        challengeItem.innerHTML = `
+            <div class="flex justify-between items-start mb-4">
+              <div class="flex-1">
+                <h3 class="text-2xl font-extrabold meme-title text-yellow-400">${challenge.title}</h3>
+                <p class="text-lg text-zinc-300 mt-2">${challenge.description}</p>
+                <p class="text-xs text-zinc-500 mt-2">ID: ${challenge.id}</p>
+              </div>
+            </div>
+            <div class="flex gap-3 mt-4">
+              <button class="edit-btn flex-1 px-4 py-2 bg-cyan-500 text-black rounded-lg font-bold hover:bg-cyan-600 transition-all" data-id="${challenge.id}" data-title="${challenge.title}" data-description="${challenge.description}">
+                ✏️ EDITAR
+              </button>
+              <button class="delete-btn flex-1 px-4 py-2 bg-red-500 text-black rounded-lg font-bold hover:bg-red-600 transition-all" data-id="${challenge.id}">
+                🗑️ ELIMINAR
+              </button>
+            </div>
+          `;
+        challengesList.appendChild(challengeItem);
+      });
+
+      // Event listeners para editar y eliminar
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', () => delete_challenge(btn.dataset.id));
+      });
+
+      document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', () => edit_challenge(btn.dataset.id, btn.dataset.title, btn.dataset.description));
+      });
+
+    } catch (error) {
+      alert('Error: ' + error.message);
+    } finally {
+      loadChallengesBtn.disabled = false;
+      loadChallengesBtn.textContent = 'CARGAR RETOS 📥';
+    }
+  });
+
+  async function delete_challenge(challengeId) {
+    if (!confirm('¿Estás seguro de que quieres eliminar este reto?')) return;
+
+    try {
+      const response = await fetch(`${URL}/delete_challenge/${challengeId}`, {
+        method: 'DELETE'
+      });
+
+      if (!response.ok) throw new Error('Error al eliminar el reto');
+
+      alert('✅ Reto eliminado exitosamente');
+      loadChallengesBtn.click(); // Recargar lista
+    } catch (error) {
+      alert('Error: ' + error.message);
+    }
+  }
+
+  async function edit_challenge(challengeId, currentTitle, currentDescription) {
+    const newTitle = prompt('Nuevo título:', currentTitle);
+    if (newTitle === null) return;
+
+    const newDescription = prompt('Nueva descripción:', currentDescription);
+    if (newDescription === null) return;
+
+    if (!newTitle || !newDescription) {
+      alert('Los campos no pueden estar vacíos');
+      return;
+    }
+
+    try {
+      const response = await fetch(`${URL}/update_challenge/${challengeId}?title=${encodeURIComponent(newTitle)}&description=${encodeURIComponent(newDescription)}`, {
+        method: 'PUT'
+      });
+
+      if (!response.ok) throw new Error('Error al actualizar el reto');
+
+      alert('✅ Reto actualizado exitosamente');
+      loadChallengesBtn.click(); // Recargar lista
+    } catch (error) {
+      alert('Error: ' + error.message);
+    }
+  }
+</script>

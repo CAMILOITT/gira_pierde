@@ -13,7 +13,7 @@ TEMPLATES_PATH = Path(templates_dir)
 @router.get("/")
 def home(request: Request):
   return templates.TemplateResponse(
-    "index.html",
+    "index.jinja",
     {
       "request": request,
     },

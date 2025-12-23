@@ -1,0 +1,10 @@
+{% macro btn(txt, id) %}
+
+<button type="submit"
+  class="min-w px-6 py-4 bg-gradient-to-r from-yellow-400 to-pink-500 text-black rounded-xl font-black hover:from-yellow-500 hover:to-pink-600 transition-all shadow-lg meme-title text-lg"
+  {% if id %} id="{{ id }}" {% endif %}>
+  {{ txt }}
+</button>
+
+{% endmacro %}
+{# CREAR RETO 🚀 #}

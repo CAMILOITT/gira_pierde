@@ -126,7 +126,31 @@
     .meme-img:hover {
       transform: scale(1.1) rotate(2deg);
     }
+
+    .tab-active {
+      border-bottom: 3px solid #fbbf24;
+      color: #fbbf24;
+    }
+
+    .tab-inactive {
+      color: #a1a1a1;
+    }
+
+    .section-hidden {
+      display: none;
+    }
+
+    .challenge-item {
+      background: linear-gradient(135deg, rgba(39, 39, 42, 0.8), rgba(63, 63, 70, 0.8));
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .challenge-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(251, 191, 36, 0.2);
+    }
   </style>
+  {% from 'components/btn.jinja' import btn %}
 </head>
 
 <body class="gradient-bg text-white min-h-screen">
@@ -152,11 +176,7 @@
 
       <main class="max-w-6xl mx-auto px-4 py-12 md:py-20">
         <div class="text-center space-y-8">
-          <div
-            class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-yellow-500/20 to-pink-500/20 border-2 border-yellow-400/50 backdrop-blur-sm float-animation">
-            <span class="text-2xl">😎</span>
-            <span class="text-sm text-yellow-300 font-bold">100% MEMES CERTIFICADOS</span>
-          </div>
+          {% include "components/badge.jinja" %}
 
           <h1 class="text-5xl md:text-7xl font-black leading-tight meme-title">
             ¿Estás listo para el<br />
@@ -167,65 +187,14 @@
             Un click. Un meme. Un reto épico. No pain, no gain... pero con risas incluidas.
           </p>
 
-          <div class="pt-6">
-            <button id="getChallengeBtn"
-              class="btn-glow px-10 py-5 bg-gradient-to-r from-yellow-400 via-pink-500 to-cyan-400 text-black rounded-2xl text-xl font-black hover:scale-105 transition-all duration-200 shadow-2xl shadow-pink-500/50 meme-title">
-              DAME ESE RETO
-            </button>
-            <p class="text-xs text-zinc-500 mt-2">*Se incluyen memes gratis</p>
-          </div>
-
-          <!-- Challenge Display -->
-          <div id="challengeDisplay"
-            class="hidden challenge-card mt-12 p-8 bg-zinc-900/90 meme-border rounded-3xl max-w-3xl mx-auto backdrop-blur-sm shadow-2xl">
-            <div class="space-y-6">
-              <div class="space-y-4">
-                <div class="flex items-center justify-between">
-                  <span class="text-sm font-bold text-yellow-400 uppercase tracking-wide meme-title">TU RETO
-                    ÉPICO</span>
-                  <span class="text-3xl">🔥</span>
-                </div>
-                <h2 id="challengeName" class="text-4xl font-extrabold meme-title"> </h2>
-                <p id="challengeText" class="text-2xl md:text-3xl font-bold text-left leading-tight">
-                </p>
-                <div class="pt-4 flex gap-3">
-                  <button id="newChallengeBtn"
-                    class="flex-1 px-6 py-4 bg-gradient-to-r from-yellow-400 to-pink-500 text-black rounded-xl font-black hover:from-yellow-500 hover:to-pink-600 transition-all shadow-lg meme-title">
-                    OTRO MÁS
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+          {% include 'components/navTabs.jinja' %}
+          {% include 'components/sectionGetAleatorio.jinja' %}
+          {% include 'components/sectionCreateChallenge.jinja' %}
+          {% include 'components/sectionModifiedChallenge.jinja' %}
         </div>
       </main>
     </div>
   </div>
-
-  <script type="module">
-    const btnGetChallenge = document.getElementById("getChallengeBtn");
-    const displayChallenge = document.getElementById("challengeDisplay");
-    const newChallengeBtn = document.getElementById("newChallengeBtn");
-    const url = new URL(window.location.href);
-
-    async function get_challenge() {
-      try {
-        console.log(url)
-        const response = await fetch(`${url.href}challenge/get_aleatory_challenge`);
-        if (!response.ok)
-          throw new Error("Network response was not ok");
-        const { challenge } = await response.json()
-        document.getElementById("challengeName").textContent = challenge.title;
-        document.getElementById("challengeText").textContent = challenge.description;
-        displayChallenge.classList.remove("hidden");
-      } catch (error) {
-        alert("Hubo un error al obtener el reto.");
-      }
-    }
-
-    btnGetChallenge.addEventListener("click", get_challenge);
-    newChallengeBtn.addEventListener("click", get_challenge);
-  </script>
 </body>
 
 </html>
