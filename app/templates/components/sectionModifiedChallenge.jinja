@@ -13,29 +13,41 @@
 </div>
 
 <script type="module" defer>
+  // Obtenemos la URL base
   const URL = window.location.origin;
+  // Obtener elementos del DOM
   const loadChallengesBtn = document.getElementById('loadChallengesBtn');
   const challengesList = document.getElementById('challengesList');
 
+  // Registramos un evento de click para cargar los retos
   loadChallengesBtn.addEventListener('click', async () => {
     try {
+      // Deshabilitamos el botón mientras cargamos
       loadChallengesBtn.disabled = true;
       loadChallengesBtn.textContent = 'CARGANDO... ⏳';
 
-      const response = await fetch(`${URL}/get_all_challenge`);
+      // Hacemos la petición para obtener los retos
+      const response = await fetch(`${URL}/challenge/get_all_challenge`);
       if (!response.ok) throw new Error('Error al cargar los retos');
 
+      // Descomponemos la respuesta JSON
       const { challenges } = await response.json();
       challengesList.innerHTML = '';
 
+      // Verificamos si hay retos
       if (challenges.length === 0) {
         challengesList.innerHTML = '<p class="text-center text-zinc-400">No hay retos creados aún 😢</p>';
         return;
       }
 
+      // Iteramos sobre los retos y los añadimos al DOM
       challenges.forEach(challenge => {
+        // Creamos el contenedor del reto
         const challengeItem = document.createElement('div');
+
+        // configuramos las clases
         challengeItem.className = 'challenge-item p-6 rounded-2xl border-2 border-yellow-400/30';
+        // creamos la plantilla hTML
         challengeItem.innerHTML = `
             <div class="flex justify-between items-start mb-4">
               <div class="flex-1">
@@ -53,65 +65,81 @@
               </button>
             </div>
           `;
+        // añadimos el reto a la lista
         challengesList.appendChild(challengeItem);
       });
 
-      // Event listeners para editar y eliminar
+      // Evento para editar y eliminar
       document.querySelectorAll('.delete-btn').forEach(btn => {
         btn.addEventListener('click', () => delete_challenge(btn.dataset.id));
       });
 
+      // Evento para editar
       document.querySelectorAll('.edit-btn').forEach(btn => {
         btn.addEventListener('click', () => edit_challenge(btn.dataset.id, btn.dataset.title, btn.dataset.description));
       });
 
     } catch (error) {
+      // notificamos al usuario
       alert('Error: ' + error.message);
     } finally {
+      // reactivamos el botón
       loadChallengesBtn.disabled = false;
       loadChallengesBtn.textContent = 'CARGAR RETOS 📥';
     }
   });
 
+  // funciones para eliminar
   async function delete_challenge(challengeId) {
+    // lanzamos una confirmación al cliente
     if (!confirm('¿Estás seguro de que quieres eliminar este reto?')) return;
-
+    // procedemos a eliminar y controlamos los errores
     try {
+      // hacemos la petición al servidor
       const response = await fetch(`${URL}/delete_challenge/${challengeId}`, {
         method: 'DELETE'
       });
-
+      // validamos la respuesta
       if (!response.ok) throw new Error('Error al eliminar el reto');
-
+      // notificamos al usuario
       alert('✅ Reto eliminado exitosamente');
       loadChallengesBtn.click(); // Recargar lista
     } catch (error) {
+      // notificamos al usuario
       alert('Error: ' + error.message);
     }
   }
 
+  // función para editar
   async function edit_challenge(challengeId, currentTitle, currentDescription) {
+    // solicitamos los nuevos datos al usuario
     const newTitle = prompt('Nuevo título:', currentTitle);
+
+    // Validamos si el usuario canceló el prompt
     if (newTitle === null) return;
 
+    // solicitamos la nueva descripción
     const newDescription = prompt('Nueva descripción:', currentDescription);
+    // Validamos si el usuario canceló el prompt
     if (newDescription === null) return;
-
+    // Validamos que los campos no estén vacíos
     if (!newTitle || !newDescription) {
       alert('Los campos no pueden estar vacíos');
       return;
     }
 
     try {
+      // hacemos la petición al servidor
       const response = await fetch(`${URL}/update_challenge/${challengeId}?title=${encodeURIComponent(newTitle)}&description=${encodeURIComponent(newDescription)}`, {
         method: 'PUT'
       });
-
+      // validamos la respuesta
       if (!response.ok) throw new Error('Error al actualizar el reto');
-
+      // notificamos al usuario
       alert('✅ Reto actualizado exitosamente');
       loadChallengesBtn.click(); // Recargar lista
     } catch (error) {
+      // notificamos al usuario
       alert('Error: ' + error.message);
     }
   }

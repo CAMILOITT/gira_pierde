@@ -22,38 +22,41 @@
 </div>
 
 <script type="module">
+  // definimos la URL base
   const URL = window.location.origin;
-
+  // obtenemos elementos del DOM
   const createForm = document.getElementById('createForm');
   const createMessage = document.getElementById('createMessage');
 
+  // manejador del evento submit del formulario
   createForm.addEventListener('submit', async (e) => {
+    // eliminamos el comportamiento por defecto
     e.preventDefault();
+    // obtenemos los valores de los campos
     const title = document.getElementById('inputTitle').value;
     const description = document.getElementById('inputDescription').value;
-
+    // validamos que los campos no estén vacíos
     if (!title || !description) {
       alert('Por favor completa todos los campos');
       return;
     }
 
     try {
-      const response = await
-        fetch(`${URL}/create_challenge?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}`,
-          {
-            method: 'POST'
-          });
-
+      // realizamos la petición POST para crear el reto
+      const response = await fetch(`${URL}/create_challenge?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}`, { method: 'POST' });
+      // manejamos los errores de la respuesta
       if (!response.ok) throw new Error('Error al crear el reto');
-
+      // mostramos el mensaje de éxito
       createMessage.textContent = '✅ ¡Reto creado exitosamente!';
       createMessage.classList.remove('hidden');
       createForm.reset();
 
+      // ocultamos el mensaje después de 3 segundos
       setTimeout(() => {
         createMessage.classList.add('hidden');
       }, 3000);
     } catch (error) {
+      // notificamos al usuario
       alert('Error: ' + error.message);
     }
   });

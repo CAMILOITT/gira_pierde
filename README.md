@@ -1,5 +1,7 @@
 # Gira Pierde - Proyecto Final
 
+![Gira Pierde](./image.png)
+
 ## Descripción General
 
 **Gira Pierde** es una API REST construida con **FastAPI** que permite gestionar una colección de retos o desafíos. Está diseñada para almacenar, recuperar y servir información de retos desde una base de datos PostgreSQL.
@@ -12,6 +14,7 @@
 - ✅ Base de datos PostgreSQL integrada
 - ✅ Manejo robusto de errores
 - ✅ Rutas documentadas con etiquetas
+- ✅ Añadimos una interfaz HTML básica para interactuar con la API
 
 ## Tecnología Stack
 
@@ -62,25 +65,30 @@
    El servidor estará disponible en `http://localhost:8000`
 
 ## Estructura del Proyecto
-
-```
+```text
 proyecto-final/
 ├── main.py                      # Punto de entrada de la aplicación
-├── pyproject.toml              # Configuración del proyecto y dependencias
-├── README.md                   # Este archivo
-├── .env                        # Variables de entorno (no incluido en git)
+├── pyproject.toml               # Configuración del proyecto y dependencias
+├── README.md                    # Este archivo
+├── .env                         # Variables de entorno (no incluido en git)
 ├── app/
-│   ├── const.py               # Constantes y configuración (conexión BD)
+│   ├── __init__.py
+│   ├── const.py                 # Constantes y configuración (conexión BD)
+│   ├── db.py                    # Inicialización y utilidades de la BD
+│   ├── models.py                # Modelos/entidades de la base de datos
+│   ├── schemas.py               # Pydantic schemas
+│   ├── crud.py                  # Operaciones CRUD sobre retos
 │   ├── routers/
-│   │   ├── challenge.py       # Rutas/endpoints de retos
-│   │   └── view.py            # Rutas/endpoints de retos
+│   │   ├── challenge.py         # Endpoints CRUD de retos
+│   │   └── view.py              # Endpoints para vistas/plantillas
 │   └── templates/
-│       └── index.html         # Template HTML para la vista principal
-└── pierde_muere/              # Colección de pruebas Bruno
-    ├── bruno.json
-    ├── create_challenge.bru
-    ├── get_aleatory_challenge.bru
-    └── get_all_challenge.bru
+│       └── index.html           # Template HTML para la vista principal
+├── migrations/                  # (opcional) scripts de migración de BD
+└── pierde_muere/                # Colección de pruebas Bruno
+  ├── bruno.json
+  ├── create_challenge.bru
+  ├── get_aleatory_challenge.bru
+  └── get_all_challenge.bru
 ```
 
 ## API Endpoints
@@ -206,3 +214,12 @@ El proyecto usa Ruff para linting y formateo con la siguiente configuración:
 - Longitud de línea: 88 caracteres
 - Ancho de indentación: 2 espacios
 - Estilo de indentación: espacios
+
+## Contribución
+
+Para contribuir al proyecto:
+
+1. Crear una rama nueva (`git checkout -b feature/nueva-funcionalidad`)
+2. Hacer los cambios necesarios
+3. Ejecutar pruebas y validaciones
+4. Hacer commit con m

@@ -6,10 +6,11 @@ from fastapi import FastAPI
 from app.const import CONN_STRING
 from app.routers import challenge, pages
 
-load_dotenv()  # Carga las variables de entorno desde el archivo .env
+# Carga las variables de entorno desde el archivo .env
+load_dotenv()
 
 
-# Librerias para inicializar la db
+# Librerías para inicializar la db
 async def create_tables(conn_string):
   # manejo de Errores de la db
   try:
