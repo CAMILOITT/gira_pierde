@@ -29,8 +29,8 @@
 
 <script type="module">
   // Creamos las constantes necesarias
-  const URL = window.location.origin;
-  const API_URL = `${URL}/challenge/get_aleatory_challenge`
+  const URL = window.location.href;
+  const API_URL = `${URL}challenge/get_aleatory_challenge`
   // Obtener elementos del DOM
   const btnGetChallenge = document.getElementById("getChallengeBtn");
   const displayChallenge = document.getElementById("challengeDisplay");

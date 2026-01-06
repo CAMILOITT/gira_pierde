@@ -21,9 +21,9 @@
   </div>
 </div>
 
-<script type="module">
+<script type="module" defer>
   // definimos la URL base
-  const URL = window.location.origin;
+  const URL = window.location.href;
   // obtenemos elementos del DOM
   const createForm = document.getElementById('createForm');
   const createMessage = document.getElementById('createMessage');
@@ -41,9 +41,11 @@
       return;
     }
 
+    console.log({ title, description })
+
     try {
       // realizamos la petición POST para crear el reto
-      const response = await fetch(`${URL}/create_challenge?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}`, { method: 'POST' });
+      const response = await fetch(`${URL}challenge/create_challenge?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}`, { method: 'POST' });
       // manejamos los errores de la respuesta
       if (!response.ok) throw new Error('Error al crear el reto');
       // mostramos el mensaje de éxito

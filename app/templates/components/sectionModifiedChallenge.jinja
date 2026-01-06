@@ -14,7 +14,7 @@
 
 <script type="module" defer>
   // Obtenemos la URL base
-  const URL = window.location.origin;
+  const URL = window.location.href;
   // Obtener elementos del DOM
   const loadChallengesBtn = document.getElementById('loadChallengesBtn');
   const challengesList = document.getElementById('challengesList');
@@ -27,7 +27,7 @@
       loadChallengesBtn.textContent = 'CARGANDO... ⏳';
 
       // Hacemos la petición para obtener los retos
-      const response = await fetch(`${URL}/challenge/get_all_challenge`);
+      const response = await fetch(`${URL}challenge/get_all_challenge`);
       if (!response.ok) throw new Error('Error al cargar los retos');
 
       // Descomponemos la respuesta JSON
@@ -96,7 +96,7 @@
     // procedemos a eliminar y controlamos los errores
     try {
       // hacemos la petición al servidor
-      const response = await fetch(`${URL}/delete_challenge/${challengeId}`, {
+      const response = await fetch(`${URL}challenge/delete_challenge/${challengeId}`, {
         method: 'DELETE'
       });
       // validamos la respuesta
@@ -130,8 +130,8 @@
 
     try {
       // hacemos la petición al servidor
-      const response = await fetch(`${URL}/update_challenge/${challengeId}?title=${encodeURIComponent(newTitle)}&description=${encodeURIComponent(newDescription)}`, {
-        method: 'PUT'
+      const response = await fetch(`${URL}challenge/update_challenge/${challengeId}?title=${encodeURIComponent(newTitle)}&description=${encodeURIComponent(newDescription)}`, {
+        method: 'PUT', headers: { accept: "application/json" }
       });
       // validamos la respuesta
       if (!response.ok) throw new Error('Error al actualizar el reto');
