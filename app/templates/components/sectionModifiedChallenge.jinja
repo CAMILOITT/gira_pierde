@@ -1,23 +1,113 @@
+{% from 'components/btn.jinja' import btn %}
+
+
 <div id="lista" class="tab-content section-hidden">
   <div class="mt-12 max-w-4xl mx-auto">
     <h2 class="text-3xl font-extrabold meme-title mb-6 text-yellow-400">MIS RETOS</h2>
-    <button id="loadChallengesBtn"
-      class="px-8 py-3 bg-gradient-to-r from-cyan-400 to-pink-500 text-black rounded-xl font-black hover:from-cyan-500 hover:to-pink-600 transition-all shadow-lg meme-title mb-6">
-      CARGAR RETOS 📥
-    </button>
-
+    <div>
+      {{ btn('CARGAR RETOS 📥', 'loadChallengesBtn', 'button') }}
+    
+      {{ btn('Subir un archivo', 'upload_file', 'button') }}
+    </div>
     <div id="challengesList" class="space-y-4">
-      <!-- Los retos se cargarán aquí -->
     </div>
   </div>
 </div>
 
 <script type="module" defer>
   // Obtenemos la URL base
-  const URL = window.location.href;
+  const BASE_URL = window.location.origin;
   // Obtener elementos del DOM
   const loadChallengesBtn = document.getElementById('loadChallengesBtn');
   const challengesList = document.getElementById('challengesList');
+
+  // creamos un btn para descargar los retos existentes
+  const btnDownload = document.createElement('button');
+  btnDownload.textContent = 'DESCARGAR RETOS 📥';
+  btnDownload.className = "min-w px-6 py-4 bg-gradient-to-r from-yellow-400 to-pink-500 text-black rounded-xl font-black hover:from-yellow-500 hover:to-pink-600 transition-all shadow-lg meme-title text-lg"
+  
+  let datos = ''
+  
+  const uploadFileBtn = document.getElementById('upload_file');
+
+  // registramos un nuevo evento para el botón de subir archivo
+  uploadFileBtn.addEventListener('click', () => {
+    // creamos un input de tipo file
+    const inputFile = document.createElement('input');
+    // configuramos el input para aceptar solo archivos .json
+    inputFile.type = 'file';
+    inputFile.accept = '.json';
+    inputFile.style.display = 'none';
+    // le a;adimos al dom
+    document.body.appendChild(inputFile);
+    // le damos un click para subir el archivo
+    inputFile.click();
+    // obtenemos el archivo seleccionado
+    inputFile.addEventListener('change', async () => {
+      const file = inputFile.files[0];
+      console.log(file);
+      if (!file) return;
+        try {
+          // leemos el archivo como texto
+          const text = await file.text();
+          // parseamos el texto a JSON
+          const data = JSON.parse(text);
+          
+          data.forEach(challenge => {
+          // Creamos el contenedor del reto
+          const challengeItem = document.createElement('div');
+
+          // configuramos las clases
+          challengeItem.className = 'challenge-item p-6 rounded-2xl border-2 border-yellow-400/30';
+          // creamos la plantilla hTML
+          challengeItem.innerHTML = `
+              <div class="flex justify-between items-start mb-4">
+                <div class="flex-1">
+                  <h3 class="text-2xl font-extrabold meme-title text-yellow-400">${challenge.title}</h3>
+                  <p class="text-lg text-zinc-300 mt-2">${challenge.description}</p>
+                  <p class="text-xs text-zinc-500 mt-2">ID: ${challenge.id}</p>
+                </div>
+              </div>
+              <div class="flex gap-3 mt-4">
+                <button class="edit-btn flex-1 px-4 py-2 bg-cyan-500 text-black rounded-lg font-bold hover:bg-cyan-600 transition-all" data-id="${challenge.id}" data-title="${challenge.title}" data-description="${challenge.description}">
+                  ✏️ EDITAR
+                </button>
+                <button class="delete-btn flex-1 px-4 py-2 bg-red-500 text-black rounded-lg font-bold hover:bg-red-600 transition-all" data-id="${challenge.id}">
+                  🗑️ ELIMINAR
+                </button>
+              </div>
+            `;
+          // añadimos el reto a la lista
+          challengesList.appendChild(challengeItem);
+        });
+        } catch (error) {
+          // lanzamos un error si no se pudo leer el archivo
+          alert('Error al leer el archivo JSON: ' + error.message);
+        }
+    });
+    // eliminamos el input del dom una vez seleccionado el archivo
+    document.body.removeChild(inputFile);
+  }, { preventDefault: false });
+
+  btnDownload.addEventListener('click', () => {
+    if (!datos) return
+    // cremos el archivo para descargar
+    const blob = new Blob([JSON.stringify(datos, null, 2)], { type: 'application/json' });
+    // creamos un enlace temporal para la descarga
+    const link = document.createElement('a');
+    // creamos la url del archivo
+    link.href = window.URL.createObjectURL(blob)
+    // asignamos el nombre del archivo
+    link.download = 'challenges.json';
+    // hacemos click en el enlace
+    link.style.display = 'none';
+    // a;adimos el enlace al DOM
+    document.body.appendChild(link);
+    // damos click
+    link.click();
+    // removemos el enlace del DOM
+    document.body.removeChild(link);
+  });
 
   // Registramos un evento de click para cargar los retos
   loadChallengesBtn.addEventListener('click', async () => {
@@ -27,11 +117,12 @@
       loadChallengesBtn.textContent = 'CARGANDO... ⏳';
 
       // Hacemos la petición para obtener los retos
-      const response = await fetch(`${URL}challenge/get_all_challenge`);
+      const response = await fetch(`${BASE_URL}/challenge/get_all_challenge`);
       if (!response.ok) throw new Error('Error al cargar los retos');
 
       // Descomponemos la respuesta JSON
       const { challenges } = await response.json();
+      datos = challenges;
       challengesList.innerHTML = '';
 
       // Verificamos si hay retos
@@ -39,6 +130,8 @@
         challengesList.innerHTML = '<p class="text-center text-zinc-400">No hay retos creados aún 😢</p>';
         return;
       }
+
+      challengesList.appendChild(btnDownload);
 
       // Iteramos sobre los retos y los añadimos al DOM
       challenges.forEach(challenge => {
@@ -96,7 +189,7 @@
     // procedemos a eliminar y controlamos los errores
     try {
       // hacemos la petición al servidor
-      const response = await fetch(`${URL}challenge/delete_challenge/${challengeId}`, {
+      const response = await fetch(`${BASE_URL}/challenge/delete_challenge/${challengeId}`, {
         method: 'DELETE'
       });
       // validamos la respuesta
@@ -130,8 +223,8 @@
 
     try {
       // hacemos la petición al servidor
-      const response = await fetch(`${URL}challenge/update_challenge/${challengeId}?title=${encodeURIComponent(newTitle)}&description=${encodeURIComponent(newDescription)}`, {
-        method: 'PUT', headers: { accept: "application/json" }
+      const response = await fetch(`${BASE_URL}/challenge/update_challenge/${challengeId}?title=${encodeURIComponent(newTitle)}&description=${encodeURIComponent(newDescription)}`, {
+        method: 'PUT'
       });
       // validamos la respuesta
       if (!response.ok) throw new Error('Error al actualizar el reto');

@@ -34,37 +34,43 @@
 ### Pasos de Instalación
 
 1. **Clonar el repositorio**
+
    ```bash
    git clone <repository-url>
    cd proyecto-final
    ```
 
 2. **Crear un entorno virtual** (opcional pero recomendado)
+
    ```bash
    python -m venv venv
    source venv/bin/activate  # En Windows: venv\Scripts\activate
    ```
 
 3. **Instalar las dependencias**
+
    ```bash
    pip install -e .
    ```
 
 4. **Configurar variables de entorno**
-   
+
    Crear un archivo `.env` en la raíz del proyecto:
+
    ```env
    DATABASE_URL=postgresql://usuario:contraseña@localhost:5432/nombre_base_datos
    ```
 
 5. **Iniciar el servidor**
+
    ```bash
    fastapi dev ./main.py
    ```
-   
+
    El servidor estará disponible en `http://localhost:8000`
 
 ## Estructura del Proyecto
+
 ```text
 proyecto-final/
 ├── main.py                      # Punto de entrada de la aplicación
@@ -94,11 +100,13 @@ proyecto-final/
 ## API Endpoints
 
 ### 1. Obtener todos los retos
+
 ```
 GET /challenge/get_all_challenge
 ```
 
 **Respuesta exitosa (200):**
+
 ```json
 {
   "challenges": [
@@ -117,11 +125,13 @@ GET /challenge/get_all_challenge
 ```
 
 ### 2. Obtener un reto aleatorio
+
 ```
 GET /challenge/get_aleatory_challenge
 ```
 
 **Respuesta exitosa (200):**
+
 ```json
 {
   "challenge": {
@@ -133,15 +143,18 @@ GET /challenge/get_aleatory_challenge
 ```
 
 ### 3. Crear un nuevo reto
+
 ```
 POST /challenge/create_challenge?title=<titulo>&description=<descripcion>
 ```
 
 **Parámetros:**
+
 - `title` (string, requerido): Título del reto
 - `description` (string, requerido): Descripción del reto
 
 **Respuesta exitosa (200):**
+
 ```json
 {
   "message": "El reto fue creado satisfactoriamente",
@@ -164,6 +177,7 @@ CREATE TABLE challenges (
 ```
 
 **Columnas:**
+
 - `id`: Identificador único (autoincrementado)
 - `title`: Título del reto (máximo 100 caracteres)
 - `description`: Descripción del reto (texto largo)
@@ -194,16 +208,19 @@ La aplicación incluye manejo comprehensive de excepciones en todos los endpoint
 ### Comandos útiles
 
 - **Iniciar servidor en modo desarrollo**
+
   ```bash
   fastapi dev ./main.py
   ```
 
 - **Verificar código con Ruff**
+
   ```bash
   ruff check .
   ```
 
 - **Formatear código con Ruff**
+
   ```bash
   ruff format .
   ```
@@ -211,15 +228,10 @@ La aplicación incluye manejo comprehensive de excepciones en todos los endpoint
 ## Configuración de Ruff
 
 El proyecto usa Ruff para linting y formateo con la siguiente configuración:
+
 - Longitud de línea: 88 caracteres
 - Ancho de indentación: 2 espacios
 - Estilo de indentación: espacios
 
-## Contribución
-
-Para contribuir al proyecto:
-
-1. Crear una rama nueva (`git checkout -b feature/nueva-funcionalidad`)
-2. Hacer los cambios necesarios
-3. Ejecutar pruebas y validaciones
-4. Hacer commit con m
+## link presentacion
+<https://gamma.app/docs/Fundamentos-para-APIs-REST-o2d9xb9c39a9rm0?mode=doc>
