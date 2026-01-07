@@ -1,32 +1,40 @@
 # importamos librerías
 import json
 
-from lib import download, update_data, upload
+from lib import download, update_data, upload, write
 
 
 # menú interactivo simple
-def menu() -> None:
+def main() -> None:
   # bucle del menú
   while True:
     # mostramos las opciones
-    print("\n1. Subir (ruta JSON)")
-    print("2. Bajar (ver JSON)")
-    print("3. Aumentar (añadir contenido)")
-    print("4. Salir")
+    print()
+    print("1. Crear (ruta JSON)")
+    print("2. Subir (ruta JSON)")
+    print("3. Bajar (ver JSON)")
+    print("4. Aumentar (añadir contenido)")
+    print("5. Salir")
 
     # leemos la opción
     op = input("Opción: ").strip()
 
     if op == "1":
+      # n_datos = int(input("Cuantos items deseas agregar: "))
+      # for i in range(n_datos):
+        
+      # write()
+    
+    elif op == "2":
       # leemos la ruta del archivo JSON
       path = input("Ruta del archivo JSON: ")
       upload(path)
 
-    elif op == "2":
+    elif op == "3":
       # mostramos el contenido del archivo JSON
       print(json.dumps(download(), indent=2, ensure_ascii=False))
 
-    elif op == "3":
+    elif op == "4":
       # leemos la clave y el valor a añadir
       key = input("Ingrese la clave del json: ")
       # leemos el valor a añadir
@@ -36,9 +44,9 @@ def menu() -> None:
       # actualizamos el archivo JSON
       update_data(json.loads(raw))
 
-    elif op == "4":
+    elif op == "5":
       break
 
 
 if __name__ == "__main__":
-  menu()
+  main()

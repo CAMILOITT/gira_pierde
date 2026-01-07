@@ -215,11 +215,5 @@ El proyecto usa Ruff para linting y formateo con la siguiente configuración:
 - Ancho de indentación: 2 espacios
 - Estilo de indentación: espacios
 
-## Contribución
-
-Para contribuir al proyecto:
-
-1. Crear una rama nueva (`git checkout -b feature/nueva-funcionalidad`)
-2. Hacer los cambios necesarios
-3. Ejecutar pruebas y validaciones
-4. Hacer commit con m
+## link presentacion
+https://gamma.app/docs/Fundamentos-para-APIs-REST-o2d9xb9c39a9rm0?mode=doc

@@ -15,7 +15,9 @@
           class="w-full px-4 py-3 rounded-xl bg-zinc-800 border-2 border-yellow-400/30 text-white placeholder-zinc-500 focus:border-yellow-400 focus:outline-none transition-all resize-none"
           rows="4"></textarea>
       </div>
-      {{ btn('CREAR RETO 🚀') }}
+      
+        {{ btn('CREAR RETO 🚀') }}
+
     </form>
     <div id="createMessage" class="mt-4 text-center text-green-400 font-bold hidden"></div>
   </div>
@@ -27,6 +29,7 @@
   // obtenemos elementos del DOM
   const createForm = document.getElementById('createForm');
   const createMessage = document.getElementById('createMessage');
+  
 
   // manejador del evento submit del formulario
   createForm.addEventListener('submit', async (e) => {
@@ -43,7 +46,7 @@
 
     try {
       // realizamos la petición POST para crear el reto
-      const response = await fetch(`${URL}/create_challenge?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}`, { method: 'POST' });
+      const response = await fetch(`${URL}/challenge/create_challenge?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}`, { method: 'POST' });
       // manejamos los errores de la respuesta
       if (!response.ok) throw new Error('Error al crear el reto');
       // mostramos el mensaje de éxito

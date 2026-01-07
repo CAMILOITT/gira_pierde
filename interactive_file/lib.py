@@ -5,7 +5,6 @@ from typing import Any, Dict
 # definimos la ruta del archivo JSON
 FILE_PATH = "data.json"
 
-
 # funciones para leer y escribir en el archivo JSON
 def read() -> Dict[str, Any]:
   # leemos el archivo JSON
@@ -22,10 +21,14 @@ def write(data: Dict[str, Any]) -> None:
 
 # función para subir datos desde un archivo JSON
 def upload(json_path: str) -> None:
-  # leemos el archivo JSON proporcionado
-  with open(json_path, "r", encoding="utf-8") as f:
-    data = json.load(f)
-  write(data)
+  try:
+    # leemos el archivo JSON proporcionado
+    with open(json_path, "r", encoding="utf-8") as f:
+      data = json.load(f)
+    write(data)
+  except ErrorValue as err:
+    print(err)
+    print("No se pudo leer el archivo")
 
 
 # función para descargar datos del archivo JSON
@@ -36,5 +39,5 @@ def download() -> Dict[str, Any]:
 # función para actualizar datos en el archivo JSON
 def update_data(payload: Dict[str, Any]) -> None:
   data = read()
-  data.update(payload)
+  update(payload)
   write(data)
